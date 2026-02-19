@@ -1,4 +1,4 @@
-# Embrace (Personal Fork)
+# Embrace (Personal Fork) (Tango DJ changes)
 
 [Embrace](https://www.ricciadams.com/projects/embrace) is a music player originally designed by Ricci Adams for the unique challenges of DJing social dance events. It focuses on playing back a single set list without audio glitches or accidental interruptions.
 
