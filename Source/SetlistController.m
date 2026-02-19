@@ -96,6 +96,7 @@ static NSInteger sAutoGapMaximum = 16;
 - (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[Player sharedInstance] removeObserver:self forKeyPath:@"currentTrack"];
 }
 
 
@@ -310,6 +311,83 @@ static NSInteger sAutoGapMaximum = 16;
     }
     
     [window display];
+}
+
+
+- (void) _triggerPresetByName:(NSString *)name
+{
+    AppDelegate *appDelegate = (AppDelegate *)[NSApp delegate];
+    
+    if ([name isEqualToString:@"Pre"]) {
+        [appDelegate updateEQToPre:nil];
+    } else if ([name isEqualToString:@"Golden"]) {
+        [appDelegate updateEQToGolden:nil];
+    } else if ([name isEqualToString:@"Post"]) {
+        [appDelegate updateEQToPost:nil];
+    } else if ([name isEqualToString:@"Cortina"]) {
+        [appDelegate updateEQToCortina:nil];
+    }
+}
+
+- (void) _toggleEQPreset:(NSString *)targetPresetName
+{
+    NSArray *selectedTracks = [[self tracksController] selectedTracks];
+    if ([selectedTracks count] == 0) return;
+
+    // 1. Check if we are "deselecting"
+    // (Are all selected tracks currently set to this preset?)
+    BOOL isDeselecting = YES;
+    for (Track *track in selectedTracks) {
+        NSString *current = [track eqPresetName];
+        if (!current || ![current isEqualToString:targetPresetName]) {
+            isDeselecting = NO;
+            break;
+        }
+    }
+
+    // 2. Determine the new value (nil if deselecting, otherwise the target name)
+    NSString *newValue = isDeselecting ? nil : targetPresetName;
+
+    // 3. Apply changes
+    for (Track *track in selectedTracks) {
+        [track setEqPresetName:newValue];
+    }
+}
+
+
+- (BOOL) _validateEQPresetStateForName:(NSString *)targetPresetName menuItem:(NSMenuItem *)menuItem
+{
+    // Get currently selected tracks
+    NSArray *selectedTracks = [[self tracksController] selectedTracks];
+    if ([selectedTracks count] == 0) {
+        [menuItem setState:NSControlStateValueOff];
+        return NO; // Disable menu item if nothing is selected
+    }
+
+    BOOL allMatch = YES;
+    BOOL anyMatch = NO;
+
+    for (Track *track in selectedTracks) {
+        // We assume you added eqPresetName to Track.h in the previous step
+        NSString *trackPreset = [track eqPresetName];
+        
+        if ([trackPreset isEqualToString:targetPresetName]) {
+            anyMatch = YES;
+        } else {
+            allMatch = NO;
+        }
+    }
+
+    // Set the checkmark state
+    if (allMatch) {
+        [menuItem setState:NSControlStateValueOn];   // Checkmark (✓)
+    } else if (anyMatch) {
+        [menuItem setState:NSControlStateValueMixed]; // Dash (-)
+    } else {
+        [menuItem setState:NSControlStateValueOff];   // Empty
+    }
+
+    return YES; // Enable the menu item
 }
 
 
@@ -564,6 +642,24 @@ static NSInteger sAutoGapMaximum = 16;
     }
     
     return NO;
+}
+
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"currentTrack"] && object == [Player sharedInstance]) {
+        Track *newTrack = [change objectForKey:NSKeyValueChangeNewKey];
+        
+        // Check if newTrack is a real object (not NSNull)
+        if (newTrack && ![newTrack isEqual:[NSNull null]]) {
+            NSString *preset = [newTrack eqPresetName];
+            if (preset) {
+                [self _triggerPresetByName:preset];
+            }
+        }
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 
@@ -914,6 +1010,22 @@ static NSInteger sAutoGapMaximum = 16;
     [self _updatePlayButton];
 }
 
+- (IBAction) markEQAsPre:(id)sender {
+    [self _toggleEQPreset:@"Pre"];
+}
+
+- (IBAction) markEQAsGolden:(id)sender {
+    [self _toggleEQPreset:@"Golden"];
+}
+
+- (IBAction) markEQAsPost:(id)sender {
+    [self _toggleEQPreset:@"Post"];
+}
+
+- (IBAction) markEQAsCortina:(id)sender {
+    [self _toggleEQPreset:@"Cortina"];
+}
+
 
 - (IBAction) toggleMarkAsPlayed:(id)sender
 {
@@ -952,6 +1064,19 @@ static NSInteger sAutoGapMaximum = 16;
 - (BOOL) validateMenuItem:(NSMenuItem *)menuItem
 {
     SEL action = [menuItem action];
+    
+    if (action == @selector(markEQAsPre:)) {
+        return [self _validateEQPresetStateForName:@"Pre" menuItem:menuItem];
+        
+    } else if (action == @selector(markEQAsGolden:)) {
+        return [self _validateEQPresetStateForName:@"Golden" menuItem:menuItem];
+        
+    } else if (action == @selector(markEQAsPost:)) {
+        return [self _validateEQPresetStateForName:@"Post" menuItem:menuItem];
+        
+    } else if (action == @selector(markEQAsCortina:)) {
+        return [self _validateEQPresetStateForName:@"Cortina" menuItem:menuItem];
+    }
 
     if (action == @selector(copy:)   ||
         action == @selector(paste:)  ||
@@ -1050,10 +1175,11 @@ static NSInteger sAutoGapMaximum = 16;
 - (void) _setupPlayer
 {
     Player *player = [Player sharedInstance];
-
     [player addListener:self];
     [player setTrackProvider:self];
-
+    
+    [player addObserver:self forKeyPath:@"currentTrack" options:NSKeyValueObservingOptionNew context:NULL];
+    
     [self player:player didUpdatePlaying:NO];
 }
 

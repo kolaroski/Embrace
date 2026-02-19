@@ -20,6 +20,7 @@ NSString * const TrackDidModifyDurationNotificationName    = @"TrackDidModifyDur
 static NSString * const sLabelKey             = @"trackLabel";
 static NSString * const sStopsAfterPlayingKey = @"stopsAfterPlaying";
 static NSString * const sIgnoresAutoGapKey    = @"ignoresAutoGap";
+static NSString * const sEQPresetNameKey      = @"eqPresetName";
 static NSString * const sStatusKey            = @"trackStatus";
 static NSString * const sPlayedTimeKey        = @"playedTime";
 
@@ -374,6 +375,10 @@ static NSURL *sGetInternalURLForUUID(NSUUID *UUID, NSString *extension)
 
     if (_ignoresAutoGap) {
         [state setObject:@YES forKey:sIgnoresAutoGapKey];
+    }
+    
+    if (_eqPresetName){
+        [state setObject:_eqPresetName forKey:sEQPresetNameKey];
     }
 
     if (_album)            [state setObject:_album                forKey:TrackKeyAlbum];
@@ -872,7 +877,6 @@ static NSURL *sGetInternalURLForUUID(NSUUID *UUID, NSString *extension)
 }
 
 
-
 - (void) setIgnoresAutoGap:(BOOL)ignoresAutoGap
 {
     if (_ignoresAutoGap != ignoresAutoGap) {
@@ -882,6 +886,17 @@ static NSURL *sGetInternalURLForUUID(NSUUID *UUID, NSString *extension)
             [self setStopsAfterPlaying:NO];
         }
         
+        _dirty = YES;
+        [self _saveStateImmediately:NO];
+    }
+}
+
+
+- (void) setEqPresetName:(NSString *)eqPresetName
+{
+    // Use inequality check just like setTitle: implementation
+    if (_eqPresetName != eqPresetName && ![_eqPresetName isEqualToString:eqPresetName]) {
+        _eqPresetName = [eqPresetName copy];
         _dirty = YES;
         [self _saveStateImmediately:NO];
     }
@@ -898,6 +913,7 @@ static NSURL *sGetInternalURLForUUID(NSUUID *UUID, NSString *extension)
         [self _saveStateImmediately:NO];
     }
 }
+
 
 - (void) setExpectedDuration:(NSTimeInterval)expectedDuration
 {

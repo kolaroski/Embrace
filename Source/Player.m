@@ -786,10 +786,12 @@ static OSStatus sHandleAudioDevicePropertyChanged(AudioObjectID inObjectID, UInt
 - (void) setCurrentTrack:(Track *)currentTrack
 {
     if (_currentTrack != currentTrack) {
+        [self willChangeValueForKey:@"currentTrack"];
         _currentTrack = currentTrack;
         [_currentTrack setTrackStatus:TrackStatusPreparing];
 
         _timeElapsed = 0;
+        [self didChangeValueForKey:@"currentTrack"];
     }
 }
 
