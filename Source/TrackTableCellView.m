@@ -317,11 +317,11 @@
         @"title",
         @"artist",
         @"playDuration",
+        @"eqPresetName",
         @"error",
         @"estimatedEndTime",
         @"pausesAfterPlaying",
         @"ignoresAutoGap",
-        @"artist",
         @"tonality",
         @"comments",
         @"grouping",
@@ -683,7 +683,7 @@
 
     Track *track = [self track];
     if (!track) return;
-
+    
     NSInteger numberOfLines = [preferences numberOfLayoutLines];
 
     NSMutableArray *a_2L = [NSMutableArray array];
@@ -719,6 +719,9 @@
 
             } else if (attribute == TrackViewAttributeArtist) {
                 string = [track artist];
+
+            } else if (attribute == TrackViewAttributeEQ) {
+                string = [track eqPresetName];
 
             } else if (attribute == TrackViewAttributeBeatsPerMinute) {
                 NSInteger bpm = [track beatsPerMinute];
@@ -789,6 +792,10 @@
     if ([preferences showsComments]) {
         [(numberOfLines == 3 ? a_3L : a_2R) addObject:@(TrackViewAttributeComments)];
     }
+    
+    if ([preferences showsEQ]) {
+        [a_3R addObject:@(TrackViewAttributeEQ)];
+    }
 
     if ([preferences showsGrouping]) {
         NSMutableArray *array;
@@ -813,8 +820,8 @@
 
         [array addObject:@(TrackViewAttributeGenre)];
     }
+    
 
-  
     [[self lineTwoLeftField]    setStringValue:collectAttributes(a_2L)];
     [[self lineTwoRightField]   setStringValue:collectAttributes(a_2R)];
     [[self lineThreeLeftField]  setStringValue:collectAttributes(a_3L)];

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="23504" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -56,6 +57,7 @@
             <connections>
                 <action selector="changeLabel:" target="-2" id="z6Z-o0-m2K"/>
             </connections>
+            <point key="canvasLocation" x="529" y="558"/>
         </customView>
         <menu id="trO-cQ-b0j" userLabel="Table View Menu">
             <items>
@@ -86,6 +88,31 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="YIs-Oy-9xy"/>
+                <menuItem title="EQ as Pre" id="T79-9B-lRy">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="markEQAsPre:" target="-2" id="GSg-gd-OPd"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="EQ as Golden" id="sWg-UB-7hw">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="markEQAsGolden:" target="-2" id="NUi-iz-H6e"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="EQ as Post" id="RfG-Rg-0BD">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="markEQAsPost:" target="-2" id="Ug7-JA-J5B"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="EQ as Cortina" id="hoY-6H-M2w">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="markEQAsCortina:" target="-2" id="VEg-wP-fFe"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="vvs-RJ-2yj"/>
                 <menuItem title="Mark as Played" id="1TI-tf-jbO">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
@@ -103,12 +130,13 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="SRi-5i-aw6"/>
             </connections>
+            <point key="canvasLocation" x="58" y="-38"/>
         </menu>
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="PlaylistWindow" animationBehavior="default" id="gir-FZ-88a" userLabel="Window" customClass="EmbraceWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="533" y="338" width="320" height="424"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2048" height="1127"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
             <value key="minSize" type="size" width="240" height="240"/>
             <view key="contentView" wantsLayer="YES" id="eL9-9a-De5">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="424"/>
@@ -231,7 +259,7 @@
                                     <binding destination="-2" name="value" keyPath="self.autoGapTimeString" id="tqy-WQ-Uo9"/>
                                 </connections>
                             </textField>
-                            <slider toolTip="Adjust the silence between tracks" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cip-py-M5e" customClass="SetlistSlider">
+                            <slider toolTip="Adjust the silence between tracks" wantsLayer="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cip-py-M5e" customClass="SetlistSlider">
                                 <rect key="frame" x="36" y="4" width="244" height="21"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="16" doubleValue="15" tickMarkPosition="below" numberOfTickMarks="17" allowsTickMarkValuesOnly="YES" sliderType="linear" id="lM1-Gy-hfX" customClass="SetlistSliderCell"/>
@@ -304,6 +332,31 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="x6g-eN-mAr"/>
+                <menuItem title="EQ as Pre" id="xG2-vN-65B">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="markEQAsPre:" target="-2" id="hHy-jm-pRd"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="EQ as Golden" id="peC-dF-QJA">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="markEQAsGolden:" target="-2" id="ZSn-R6-auM"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="EQ as Post" id="PhG-3Z-Dbz">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="markEQAsPost:" target="-2" id="nBe-YZ-l8a"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="EQ as Cortina" id="e9J-tq-g7s">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="markEQAsCortina:" target="-2" id="GZn-pF-hMa"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="oRz-bD-HtV"/>
                 <menuItem title="Mark as Played" id="tCd-XV-fUq">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
@@ -321,6 +374,7 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="KIN-6W-345"/>
             </connections>
+            <point key="canvasLocation" x="-77" y="-315"/>
         </menu>
         <customView id="Fvc-DQ-N2K" userLabel="Drag Songs Here View">
             <rect key="frame" x="0.0" y="0.0" width="128" height="193"/>
@@ -340,6 +394,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </customView>
             </subviews>
+            <point key="canvasLocation" x="529" y="829"/>
         </customView>
     </objects>
     <resources>

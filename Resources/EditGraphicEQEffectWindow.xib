@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="23504" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -9,6 +10,7 @@
             <connections>
                 <outlet property="backgroundView" destination="p7p-gj-VAV" id="g0A-w3-geT"/>
                 <outlet property="graphicEQView" destination="y1v-uw-fLy" id="hEm-bY-Dbg"/>
+                <outlet property="infoIcon" destination="uKD-Ix-UKo" id="bpn-Gi-xnq"/>
                 <outlet property="window" destination="5mm-8W-u52" id="RhH-N2-3zC"/>
             </connections>
         </customObject>
@@ -17,18 +19,18 @@
         <window title="Effects" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="5mm-8W-u52">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="131" y="159" width="240" height="160"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
+            <rect key="contentRect" x="131" y="159" width="475" height="160"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
             <view key="contentView" wantsLayer="YES" id="wIn-2X-2Cg">
-                <rect key="frame" x="0.0" y="0.0" width="240" height="160"/>
+                <rect key="frame" x="0.0" y="0.0" width="475" height="160"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <visualEffectView wantsLayer="YES" fixedFrame="YES" blendingMode="withinWindow" material="titlebar" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="p7p-gj-VAV">
-                        <rect key="frame" x="0.0" y="0.0" width="240" height="112"/>
+                        <rect key="frame" x="0.0" y="0.0" width="475" height="112"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y1v-uw-fLy" customClass="GraphicEQView">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="112"/>
+                                <rect key="frame" x="0.0" y="0.0" width="475" height="112"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </customView>
                         </subviews>
@@ -91,19 +93,103 @@
                             </connections>
                         </button>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="F923CE2A-4C42-46DE-9CD3-1A1E3CE589AA" label="Custom View" paletteLabel="Custom View" title="Golden" id="X2O-us-yu0">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="82" height="32"/>
+                        <size key="maxSize" width="82" height="32"/>
+                        <button key="view" verticalHuggingPriority="750" id="aUk-5J-cik">
+                            <rect key="frame" x="0.0" y="14" width="82" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="push" title="Golden" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lJD-6g-vKB">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <color key="bezelColor" name="underPageBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <connections>
+                                <action selector="togglePresetGolden:" target="-2" id="kmZ-Hd-VGC"/>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="00AF2AE8-DCBE-4623-B6BD-D3105DB4B3FA" label="Custom View" paletteLabel="Custom View" bordered="YES" title="Pre" id="YaO-iO-0ff">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="82" height="32"/>
+                        <size key="maxSize" width="82" height="32"/>
+                        <button key="view" verticalHuggingPriority="750" id="U5a-eK-DtF">
+                            <rect key="frame" x="0.0" y="14" width="82" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="push" title="Pre" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VZp-3O-Nng">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <color key="bezelColor" name="underPageBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <connections>
+                                <action selector="togglePresetPre:" target="-2" id="JPt-sd-RFk"/>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="B722F3BC-71F1-4670-9508-9E0BF60AD940" label="Custom View" paletteLabel="Custom View" bordered="YES" title="Cortina" id="9NM-FS-dqO">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="82" height="32"/>
+                        <size key="maxSize" width="82" height="32"/>
+                        <button key="view" verticalHuggingPriority="750" id="VRP-qG-5wt">
+                            <rect key="frame" x="0.0" y="14" width="82" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="push" title="Cortina" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="omU-D8-qAb">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <color key="bezelColor" name="underPageBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <connections>
+                                <action selector="togglePresetCortina:" target="-2" id="rnf-X9-gxw"/>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="0D17DB80-46D8-4488-BA6F-7A3FF25030BB" label="Custom View" paletteLabel="Custom View" bordered="YES" title="Post" id="MPh-Ff-vFb">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="82" height="32"/>
+                        <size key="maxSize" width="82" height="32"/>
+                        <button key="view" verticalHuggingPriority="750" id="8b8-M3-SJl">
+                            <rect key="frame" x="0.0" y="14" width="82" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="push" title="Post" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wUz-4S-Z6O">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <color key="bezelColor" name="underPageBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <connections>
+                                <action selector="togglePresetPost:" target="-2" id="bWJ-by-0pE"/>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="7E02DE85-44EB-4C41-A1DC-99C75CA51032" label="Custom View" paletteLabel="Custom View" image="info.circle" catalog="system" id="nd6-Gv-tLD">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="48" height="48"/>
+                        <size key="maxSize" width="48" height="48"/>
+                        <imageView key="view" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="uKD-Ix-UKo">
+                            <rect key="frame" x="14" y="14" width="48" height="48"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="info.circle" catalog="system" id="blU-TT-eiO"/>
+                        </imageView>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
+                    <toolbarItem reference="nd6-Gv-tLD"/>
                     <toolbarItem reference="bdy-3L-3eu"/>
+                    <toolbarItem reference="YaO-iO-0ff"/>
+                    <toolbarItem reference="X2O-us-yu0"/>
+                    <toolbarItem reference="MPh-Ff-vFb"/>
+                    <toolbarItem reference="9NM-FS-dqO"/>
                     <toolbarItem reference="xjk-sh-TCU"/>
                     <toolbarItem reference="zKn-WL-hdI"/>
                 </defaultToolbarItems>
             </toolbar>
-            <point key="canvasLocation" x="597" y="415"/>
+            <point key="canvasLocation" x="570.5" y="415"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="Rzj-OB-R5q"/>
     </objects>
     <resources>
         <image name="FlattenTemplate" width="18" height="18"/>
-        <image name="NSActionTemplate" width="15" height="15"/>
+        <image name="NSActionTemplate" width="20" height="20"/>
+        <image name="info.circle" catalog="system" width="15" height="15"/>
     </resources>
 </document>

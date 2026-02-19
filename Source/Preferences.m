@@ -29,6 +29,7 @@ static NSDictionary *sGetDefaultValues()
         @"showsAlbumArtist":     @NO,
         @"showsArtist":          @YES,
         @"showsBPM":             @YES,
+        @"showsEQ":              @YES,
         @"showsComments":        @NO,
         @"showsGrouping":        @NO,
         @"showsKeySignature":    @NO,
@@ -209,9 +210,10 @@ static void sRegisterDefaults()
     } else if (attribute == TrackViewAttributeArtist) {
         return @"showsArtist";
 
+    } else if (attribute == TrackViewAttributeEQ) {
+        return @"showsEQ";
     } else if (attribute == TrackViewAttributeBeatsPerMinute) {
         return @"showsBPM";
-        
     } else if (attribute == TrackViewAttributeComments) {
         return @"showsComments";
 

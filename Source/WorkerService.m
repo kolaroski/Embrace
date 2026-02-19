@@ -136,7 +136,7 @@ static NSDictionary *sReadLoudness(NSURL *internalURL)
                                                      error: &error];
 
     if (error) NSLog(@"%@", error);
-
+    
     if (command == WorkerTrackCommandReadMetadata) {
         dispatch_async(sMetadataQueue, ^{ @autoreleasepool {
             if (![sCancelledUUIDs containsObject:UUID]) {

@@ -20,6 +20,11 @@
 - (void) showCurrentTrack;
 - (void) showPreferences;
 
+- (IBAction) updateEQToPre:(id)sender;
+- (IBAction) updateEQToGolden:(id)sender;
+- (IBAction) updateEQToPost:(id)sender;
+- (IBAction) updateEQToCortina:(id)sender;
+
 @property (nonatomic, readonly) SetlistController *setlistController;
 
 - (EditEffectController *) editControllerForEffect:(Effect *)effect;

@@ -38,6 +38,13 @@
 #include "../Private/EmbracePrivate.m"
 #endif
 
+@interface EditGraphicEQEffectController (Presets)
+- (IBAction) togglePresetPre:(id)sender;
+- (IBAction) togglePresetGolden:(id)sender;
+- (IBAction) togglePresetPost:(id)sender;
+- (IBAction) togglePresetCortina:(id)sender;
+@end
+
 @interface AppDelegate () <NSMenuItemValidation>
 
 - (IBAction) openFile:(id)sender;
@@ -840,6 +847,42 @@
     EditEffectController *equalizerController = [self _equalizerEffectController];
     if (equalizerController) {
         [self _toggleWindowForController:equalizerController sender:sender];
+    }
+}
+
+
+- (IBAction) updateEQToPre:(id)sender
+{
+    EditGraphicEQEffectController *controller = (EditGraphicEQEffectController *)[self _equalizerEffectController];
+    if ([controller respondsToSelector:@selector(togglePresetPre:)]) {
+        [controller togglePresetPre:sender];
+    }
+}
+
+
+- (IBAction) updateEQToGolden:(id)sender
+{
+    EditGraphicEQEffectController *controller = (EditGraphicEQEffectController *)[self _equalizerEffectController];
+    if ([controller respondsToSelector:@selector(togglePresetGolden:)]) {
+        [controller togglePresetGolden:sender];
+    }
+}
+
+
+- (IBAction) updateEQToPost:(id)sender
+{
+    EditGraphicEQEffectController *controller = (EditGraphicEQEffectController *)[self _equalizerEffectController];
+    if ([controller respondsToSelector:@selector(togglePresetPost:)]) {
+        [controller togglePresetPost:sender];
+    }
+}
+
+
+- (IBAction) updateEQToCortina:(id)sender
+{
+    EditGraphicEQEffectController *controller = (EditGraphicEQEffectController *)[self _equalizerEffectController];
+    if ([controller respondsToSelector:@selector(togglePresetCortina:)]) {
+        [controller togglePresetCortina:sender];
     }
 }
 
