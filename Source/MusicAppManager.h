@@ -45,5 +45,6 @@ extern NSString * const MusicAppManagerDidUpdateLibraryMetadataNotification;
 @property (nonatomic, copy) NSString *location;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *artist;
+@property (nonatomic, copy) NSString *albumArtist;
 @property (nonatomic) NSTimeInterval duration;
 @end

@@ -361,6 +361,7 @@ static NSInteger sGetYear(NSString *yearString)
     if (err == noErr) {
         transfer( kAFInfoDictionary_Album,        TrackKeyAlbum      );
         transfer( kAFInfoDictionary_Artist,       TrackKeyArtist     );
+        transfer( "album artist",                 TrackKeyAlbumArtist );
         transfer( kAFInfoDictionary_Composer,     TrackKeyComposer   );
         transfer( kAFInfoDictionary_Comments,     TrackKeyComments   );
         transfer( kAFInfoDictionary_KeySignature, TrackKeyInitialKey );
@@ -436,6 +437,87 @@ static NSInteger sGetYear(NSString *yearString)
     scan(YES) || scan(NO);
 }
 
+- (void) _parseFLACWithBytes:(const UInt8 *)bytes length:(NSUInteger)length
+{
+    // Need at least "fLaC" marker + 4 bytes for first block header
+    if (length < 8) return;
+
+    // 1. Skip "fLaC" marker
+    NSUInteger offset = 4;
+    BOOL isLastBlock = NO;
+
+    while (!isLastBlock && (offset + 4 <= length)) {
+        // 2. Read Block Header
+        // Byte 0: Last Block Flag (1 bit) + Block Type (7 bits)
+        // Bytes 1-3: Block Length (24 bits)
+        UInt8 headerByte = bytes[offset];
+        isLastBlock = (headerByte & 0x80) != 0;
+        UInt8 blockType = (headerByte & 0x7F);
+        
+        UInt32 blockLength = (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3];
+        offset += 4;
+
+        // Check if we have enough data for the block
+        if (offset + blockLength > length) break;
+
+        // 3. Process VORBIS_COMMENT block (Type 4)
+        if (blockType == 4) {
+            NSUInteger blockEnd = offset + blockLength;
+            NSUInteger innerOffset = offset;
+
+            // Vorbis Comment Structure:
+            // [Vendor Length (4 bytes LE)] + [Vendor String] + [List Count (4 bytes LE)] ...
+
+            // Skip Vendor String
+            if (innerOffset + 4 <= blockEnd) {
+                UInt32 vendorLen = (bytes[innerOffset] | (bytes[innerOffset+1] << 8) | (bytes[innerOffset+2] << 16) | (bytes[innerOffset+3] << 24));
+                innerOffset += 4 + vendorLen;
+            }
+
+            // Read Comment List Count
+            UInt32 listCount = 0;
+            if (innerOffset + 4 <= blockEnd) {
+                listCount = (bytes[innerOffset] | (bytes[innerOffset+1] << 8) | (bytes[innerOffset+2] << 16) | (bytes[innerOffset+3] << 24));
+                innerOffset += 4;
+            }
+
+            // Loop through comments
+            for (UInt32 i = 0; i < listCount; i++) {
+                if (innerOffset + 4 > blockEnd) break;
+
+                UInt32 commentLen = (bytes[innerOffset] | (bytes[innerOffset+1] << 8) | (bytes[innerOffset+2] << 16) | (bytes[innerOffset+3] << 24));
+                innerOffset += 4;
+
+                if (innerOffset + commentLen > blockEnd) break;
+
+                NSString *comment = [[NSString alloc] initWithBytes:(bytes + innerOffset) length:commentLen encoding:NSUTF8StringEncoding];
+                innerOffset += commentLen;
+
+                if (comment) {
+                    // Check for Album Artist tags (case-insensitive keys)
+                    // Format is usually "KEY=VALUE"
+                    NSArray *parts = [comment componentsSeparatedByString:@"="];
+                    if ([parts count] >= 2) {
+                        NSString *key = [[parts firstObject] uppercaseString];
+                        NSString *value = [comment substringFromIndex:[key length] + 1]; // Handle values with '=' in them
+                        
+                        // Check for common Vorbis keys for Album Artist
+                        if ([key isEqualToString:@"ALBUMARTIST"] ||
+                            [key isEqualToString:@"ALBUM ARTIST"] ||
+                            [key isEqualToString:@"BAND"] ||
+                            [key isEqualToString:@"ENSEMBLE"])
+                        {
+                            [_metadata setObject:value forKey:TrackKeyAlbumArtist];
+                        }
+                    }
+                }
+            }
+        }
+
+        // Move to next block
+        offset += blockLength;
+    }
+}
 
 - (void) _parseUsingCustomParsers
 {
@@ -449,6 +531,8 @@ static NSInteger sGetYear(NSString *yearString)
         strncmp(bytes + 8, "AIF",  3) == 0)
     {
         [self _parseAIFFWithBytes:(const UInt8 *)(bytes + 12) length:(length - 12)];
+    } else if (length > 4 && strncmp(bytes, "fLaC", 4) == 0) {
+        [self _parseFLACWithBytes:(const UInt8 *)bytes length:length];
     }
 }
 
