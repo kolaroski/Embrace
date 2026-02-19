@@ -199,6 +199,9 @@ static NSString *sGetExpandedPath(NSString *inPath)
 
         NSString *artist = [track objectForKey:@"Artist"];
         if (![artist isKindOfClass:[NSString class]]) artist = nil;
+        
+        NSString *albumArtist = [track objectForKey:@"Album Artist"];
+        if (![albumArtist isKindOfClass:[NSString class]]) albumArtist = nil;
 
         NSString *name = [track objectForKey:@"Name"];
         if (![name isKindOfClass:[NSString class]]) name = nil;
@@ -229,6 +232,7 @@ static NSString *sGetExpandedPath(NSString *inPath)
         [metadata setDuration:totalTime];
         [metadata setTitle:name];
         [metadata setArtist:artist];
+        [metadata setAlbumArtist:albumArtist];
         [metadata setLocation:sGetExpandedPath(location)];
         [metadata setTrackID:trackID];
         [metadata setDatabaseID:[key integerValue]];
