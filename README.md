@@ -9,6 +9,35 @@
 
 ---
 
+# Changes
+
+## New Feature: Per-Track Equalizer Presets
+
+This fork introduces enhanced equalizer capabilities designed for live performance workflows. You can now define four distinct EQ presets and assign them to specific tracks in your setlist. Embrace will automatically seamlessly switch to the assigned EQ curve when that track begins playing.
+
+### 1. Managing EQ Presets
+
+The Equalizer window now features four quick-access preset slots located above the frequency sliders: **Pre**, **Golden**, **Post**, and **Cortina**.
+
+* **Loading a Preset:** Simply click one of the four buttons to instantly apply those curve settings.
+* **Saving a Preset:** Adjust the sliders to your liking. Then, hold the `Option (⌥)` key on your keyboard and click one of the preset buttons to save current state to that slot.
+
+![Equalizer UI showing preset buttons and saving instructions](images/eq-ui.png)
+*Above: The updated EQ interface showing the four preset slots and the save tutorial popup.*
+
+### 2. Assigning Presets to Tracks
+
+Once you have defined your sound profiles, you can assign them to individual songs in your playlist to ensure they always play back with the correct tonality.
+
+1.  Right-click (or Control-click) on any track in your main list.
+2.  In the context menu, you will see new options corresponding to your EQ slots (e.g., "EQ as Golden").
+3.  Select the desired preset. A checkmark will appear next to the active assignment for that track.
+
+When this track plays, the Equalizer will automatically switch to the selected preset.
+
+![Context menu showing EQ assignment options](images/eq-menu.png)
+*Above: Assigning the "Golden" EQ preset to a specific track via the context menu.*
+
 ## Philosophy
 
 Audio programming is hard. macOS audio programming is harder (usually due to sparse documentation). The original repository was made publicly-viewable in the hopes that its source code could help others.
