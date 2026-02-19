@@ -23,7 +23,6 @@ The Equalizer window now features four quick-access preset slots located above t
 * **Saving a Preset:** Adjust the sliders to your liking. Then, hold the `Option (⌥)` key on your keyboard and click one of the preset buttons to save current state to that slot.
 
 ![Equalizer UI showing preset buttons and saving instructions](images/eq-ui.png)
-*Above: The updated EQ interface showing the four preset slots and the save tutorial popup.*
 
 ### 2. Assigning Presets to Tracks
 
@@ -36,7 +35,6 @@ Once you have defined your sound profiles, you can assign them to individual son
 When this track plays, the Equalizer will automatically switch to the selected preset.
 
 ![Context menu showing EQ assignment options](images/eq-menu.png)
-*Above: Assigning the "Golden" EQ preset to a specific track via the context menu.*
 
 ## Philosophy
 
